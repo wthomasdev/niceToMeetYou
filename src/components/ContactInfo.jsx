@@ -45,13 +45,22 @@ export default class ContactInfo extends Component {
         return name.length > 0 && this.validateEmail(email)
     }
 
+    renderEmailWarning() {
+        const {email} = this.state
+        if (email.length > 0 && !this.validateEmail(email)) {
+            return (
+                <h4> Please input a valid email address </h4>
+            )
+        }
+    }
+
 
     render() {
-        this.validateEmail(this.state.email)
         return (
             <div className="contact-info-container">
                 <TextField hintText="Enter your new contacts' name." value={this.state.name} floatingLabelText="Name" onChange={this.setName}/>
                 <TextField hintText="Enter your new contacts' email." floatingLabelText="Email" onChange={this.setEmail} />
+                {this.renderEmailWarning()}
                 <RaisedButton disabled={!this.disabled()} label="Submit" secondary={true} onClick={this.submit} style={style}></RaisedButton>
             </div>
         )
