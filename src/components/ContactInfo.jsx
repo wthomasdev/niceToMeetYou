@@ -35,20 +35,27 @@ export default class ContactInfo extends Component {
         console.log(`this is what i'm submitting ${this.state.name}, and ${this.state.email}`)
     }
 
+    validateEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        return re.test(email)
+    }
+
     disabled() {
         const { email, name } = this.state
-        return name === '' || email === ''
+        return name.length > 0 && this.validateEmail(email)
     }
 
 
     render() {
+        this.validateEmail(this.state.email)
         return (
             <div className="contact-info-container">
                 <TextField hintText="Enter your new contacts' name." value={this.state.name} floatingLabelText="Name" onChange={this.setName}/>
                 <TextField hintText="Enter your new contacts' email." floatingLabelText="Email" onChange={this.setEmail} />
-                <RaisedButton disabled={this.disabled()} label="Submit" secondary={true} onClick={this.submit} style={style}></RaisedButton>
+                <RaisedButton disabled={!this.disabled()} label="Submit" secondary={true} onClick={this.submit} style={style}></RaisedButton>
             </div>
         )
 
     }
 }
+
